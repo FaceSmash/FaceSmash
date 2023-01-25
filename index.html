@@ -150,6 +150,42 @@
 
         }
       });
+
+      document.addEventListener("click", function(event) {
+        if (event.target === left && lock === false || event.target === right && lock === false) {
+          lock = true;
+          if (event.target === left) {
+            changeRating(randomNumber1, randomNumber2, 1, 0);
+            randomNumber2 = ('00000' + Math.floor(Math.random() * 494)).slice(-5)
+            player1count++;
+            player2count = 0;
+            if (player1count === 10) {
+              randomNumber1 = ('00000' + Math.floor(Math.random() * 494)).slice(-5)
+            }
+            setTimeout(function() {
+              getImages();
+              lock = false;
+            }, 500);
+          }
+          else if (event.target === right) {
+            changeRating(randomNumber1, randomNumber2, 0, 1);
+            randomNumber1 = ('00000' + Math.floor(Math.random() * 494)).slice(-5)
+            player2count++;
+            player1count = 0;
+            if (player2count === 10) {
+              randomNumber2 = ('00000' + Math.floor(Math.random() * 494)).slice(-5)
+            }
+            setTimeout(function() {
+              getImages();
+              lock = false;
+            }, 500);
+          }
+
+        }
+      });
+
+
+
     </script>
   </body>
 </html>
