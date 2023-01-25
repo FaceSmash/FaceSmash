@@ -79,16 +79,14 @@
         }
       }
       var body = document.querySelector("body");
-      var randomNumber1
-      var randomNumber2
+      var randomNumber1 = ('00000' + Math.floor(Math.random() * 494)).slice(-5)
+      var randomNumber2 = ('00000' + Math.floor(Math.random() * 494)).slice(-5)
       var leftimg
       var rightimg
       var randomNum
       var left
       var right
       function getImages() {
-        randomNumber1 = ('00000' + Math.floor(Math.random() * 494)).slice(-5)
-        randomNumber2 = ('00000' + Math.floor(Math.random() * 494)).slice(-5)
         leftimg = "L6/" + randomNumber1 + ".jpg";
         rightimg = "L6/" + randomNumber2 + ".jpg";
         left = document.getElementById("img-1");
@@ -123,6 +121,7 @@
           lock = true;
           if (event.code === "ArrowLeft") {
             changeRating(randomNumber1, randomNumber2, 1, 0);
+            randomNumber2 = ('00000' + Math.floor(Math.random() * 494)).slice(-5)
             setTimeout(function() {
               getImages();
               lock = false;
@@ -130,6 +129,7 @@
           } 
           else if (event.code === "ArrowRight") {
             changeRating(randomNumber1, randomNumber2, 0, 1);
+            randomNumber1 = ('00000' + Math.floor(Math.random() * 494)).slice(-5)
             setTimeout(function() {
               getImages();
               lock = false;
