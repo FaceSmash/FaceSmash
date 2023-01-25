@@ -1,0 +1,79 @@
+/* Style for the images */
+img {
+    padding-top: 6%;
+    padding-left: 6%;
+    padding-right: 6%;
+    width: 30%; /* half of the screen width */
+    height: auto; /* automatically adjust height */
+}
+
+
+h1 {text-align: center; font-size: 50px; font-family: -apple-system,BlinkMacSystemFont,Segoe UI,system-ui,Helvetica,Arial,sans-serif;}
+p {text-align: center; font-size: 20px;}
+div {text-align: center;}
+
+body {
+    background-color: #333333; /* Dark background color */
+    color: #FFFFFF; /* Light text color */
+}
+
+#parent-container {
+    position: relative; /* Make parent container relative */
+}
+
+table#leaderboard {
+    font-family: -apple-system,BlinkMacSystemFont,Segoe UI,system-ui,Helvetica,Arial,sans-serif;
+    border-radius: 10px;
+    font-size: 1.2rem;
+    top: 20%;
+    margin: 20px auto 0;
+    width: 80%;
+    border-collapse: collapse;
+    background-color: #282828;
+  }
+  
+  table#leaderboard th, table#leaderboard td {
+    border: 1px solid black;
+    padding: 8px;
+    text-align: left;
+  }
+  
+  table#leaderboard th {
+    background-color: #f2f2f2;
+  }
+
+  table#leaderboard th, table#leaderboard td {
+    border: none; /* Remove border */
+  }
+  table#leaderboard tr:hover {
+    border-radius: 10px;
+    background-color: #4CAF50; /* Add background color for hover effect */
+    box-shadow: 0 4px 8px 0 rgba(0,0,0,0.2); /* Add shadow for 3D effect */
+  }
+  
+  
+nav {
+    background-color: #56494C;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.nav-link {
+    padding: 10px 20px;
+    color: #fff;
+    text-decoration: none;
+    text-align: center;
+    font-size: 35px;
+    font-family: 'Open Sans', sans-serif;
+    flex-grow: 1;
+}
+
+.nav-link:hover {
+    background-color: #847E89;
+}
+
+.nav-link.active {
+    background-color: #847E89;
+    color: #fff;
+}
