@@ -60,15 +60,25 @@
 
             for (var i = 0; i < topScores.length; i++) {
                 var row = leaderboard.insertRow();
-                var rankCell = row.insertCell(0);
-                var nameCell = row.insertCell(1);
-                var scoreCell = row.insertCell(2);
+                var redirectCell = row.insertCell(0);
+                var rankCell = row.insertCell(1);
+                var nameCell = row.insertCell(2);
+                var scoreCell = row.insertCell(3);
                 var str = "" + topScores[i].key
                 var pad = "00000"
-                var ans = pad.substring(0, pad.length - str.length) + str
+                var ans = pad.substring(0, pad.length - str.length)  + str
                 let data = await getData(ans)
+                redirectCell.innerHTML = `<a href="https://facesmash.github.io/FaceSmash/L6/${ans}.jpg" target="_blank"><span class="redirect"></span></a>`;
                 rankCell.innerHTML = i+1;
-                nameCell.innerHTML = change(ans);
+                if (Math.round(topScores[i].score) >= 1500 && Math.round(topScores[i].score) < 2500) {
+                    nameCell.innerHTML = `<span class="title-component">IM</span>` + " " + change(ans);
+                }
+                else if (Math.round(topScores[i].score) >= 2500) {
+                    nameCell.innerHTML = `<span class="title-component">GM</span>` + " " + change(ans);
+                }
+                else {
+                    nameCell.innerHTML = change(ans);
+                }
                 scoreCell.innerHTML = Math.round(topScores[i].score);
             }
         };
