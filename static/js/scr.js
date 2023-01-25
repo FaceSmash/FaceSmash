@@ -420,7 +420,7 @@ const mapping = {
     "00419": "Sarah Hendy",
     "00420": "Khadra Osman",
     "00421": "Aysu Tonaydin",
-    "00422": "21017214",
+    "00422": "Artemis Basa",
     "00423": "Surajat Bello",
     "00424": "Anna-Louise Adepegba",
     "00425": "Anna Helene Hilari-Bratland",
