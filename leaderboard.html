@@ -1,0 +1,79 @@
+<html>
+  <head>
+    <title>FaceSmash</title>
+    <script src="https://www.gstatic.com/firebasejs/7.17.2/firebase-app.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/7.17.2/firebase-auth.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/7.17.2/firebase-database.js"></script>
+    <script src="static/js/scr.js"></script>
+    <link rel="stylesheet" href="static/css/styles.css">  
+  </head>
+  <nav>
+    <a href="/" class="nav-link active">FaceSmash</a>
+    <a href="/leaderboard" class="nav-link">Leaderboard</a>
+  </nav>    
+  <body>
+    <div>
+        <h1>Leaderboard</h1>
+        <table id="leaderboard"></table>     
+    </div>
+    <script type="module">
+        import { initializeApp } from "https://www.gstatic.com/firebasejs/9.16.0/firebase-app.js";
+        const firebaseConfig = {
+            apiKey: "AIzaSyCdXptiYhasQSessIZhzVjbDx7WEEURUuw",
+            authDomain: "facesmash-16b7d.firebaseapp.com",
+            databaseURL: "https://facesmash-16b7d-default-rtdb.europe-west1.firebasedatabase.app",
+            projectId: "facesmash-16b7d",
+            storageBucket: "facesmash-16b7d.appspot.com",
+            messagingSenderId: "922705802314",
+            appId: "1:922705802314:web:2b780673acf54192bc22b3",
+            measurementId: "G-NYG5G6D4G3"
+        };
+        import { orderByChild, getDatabase, get, ref, set, child, update, remove }
+        from "https://www.gstatic.com/firebasejs/9.16.0/firebase-database.js"
+        const app = initializeApp(firebaseConfig);
+        const db = getDatabase()
+        async function getData(key) {
+            const reference = ref(db, "Ratings/"+key)
+            return get(reference).then((snapshot) => {
+                if (snapshot.exists()){
+                return snapshot.val().Score
+                }
+            })
+        };
+
+
+
+        async function main() {
+            let topScores = [];
+            for (let i = 0; i < 494; i++) {
+                var str = "" + i
+                var pad = "00000"
+                var ans = pad.substring(0, pad.length - str.length) + str
+                let data = await getData(ans)
+                topScores.push({key: i, score: data});
+            }
+            topScores.sort(function(a, b) {
+                return b.score - a.score;
+            });
+            console.log(topScores[0].key)
+            var leaderboard = document.getElementById("leaderboard");
+
+            for (var i = 0; i < topScores.length; i++) {
+                var row = leaderboard.insertRow();
+                var rankCell = row.insertCell(0);
+                var nameCell = row.insertCell(1);
+                var scoreCell = row.insertCell(2);
+                var str = "" + topScores[i].key
+                var pad = "00000"
+                var ans = pad.substring(0, pad.length - str.length) + str
+                let data = await getData(ans)
+                rankCell.innerHTML = i+1;
+                nameCell.innerHTML = change(ans);
+                scoreCell.innerHTML = Math.round(topScores[i].score);
+            }
+        };
+        await main();
+        
+    </script>
+  </body>
+</html>

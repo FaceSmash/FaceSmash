@@ -1,0 +1,143 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <title>FaceSmash</title>
+    <script src="https://www.gstatic.com/firebasejs/7.17.2/firebase-app.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/7.17.2/firebase-auth.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/7.17.2/firebase-database.js"></script>
+    <link rel="stylesheet" href="static/css/styles.css">  
+  </head>
+  <nav>
+    <a href="/" class="nav-link active">FaceSmash</a>
+    <a href="/leaderboard" class="nav-link">Leaderboard</a>
+  </nav>    
+  <body>
+    <div>
+      <img id="img-1"/>
+      <img id="img-2"/>
+    </div>
+    <script type="module">
+      import { initializeApp } from "https://www.gstatic.com/firebasejs/9.16.0/firebase-app.js";
+
+      const firebaseConfig = {
+        apiKey: "AIzaSyCdXptiYhasQSessIZhzVjbDx7WEEURUuw",
+        authDomain: "facesmash-16b7d.firebaseapp.com",
+        databaseURL: "https://facesmash-16b7d-default-rtdb.europe-west1.firebasedatabase.app",
+        projectId: "facesmash-16b7d",
+        storageBucket: "facesmash-16b7d.appspot.com",
+        messagingSenderId: "922705802314",
+        appId: "1:922705802314:web:2b780673acf54192bc22b3",
+        measurementId: "G-NYG5G6D4G3"
+      };
+      
+      import { orderByChild, getDatabase, get, ref, set, child, update, remove }
+      from "https://www.gstatic.com/firebasejs/9.16.0/firebase-database.js"
+      
+      const app = initializeApp(firebaseConfig);
+      const db = getDatabase()
+      function pushData(key, value) {
+        set(ref(db, "Ratings/"+key),{
+          Score: value
+        })
+      }
+      async function getData(key) {
+        const reference = ref(db, "Ratings/"+key)
+        return get(reference).then((snapshot) => {
+          if (snapshot.exists()){
+            return snapshot.val().Score
+          }
+          
+        })
+      }
+
+
+      function getTopScores() {
+        const reference = ref(db);
+        return get(reference).then(function(snapshot) {
+          console.log(snapshot)
+          let topScores = [];
+          snapshot.forEach(function(childSnapshot) {
+            let key = childSnapshot.key;
+            let score = childSnapshot.val().Score;
+            topScores.push({key: key, score: score});
+          });
+          console.log(topScores)
+          return topScores;
+        });
+    }
+
+
+
+
+
+      function resetData() {
+        for (let i = 0; i < 494; i++) {
+          var str = "" + i
+          var pad = "00000"
+          var ans = pad.substring(0, pad.length - str.length) + str
+          pushData(ans, 1000)
+        }
+      }
+      var body = document.querySelector("body");
+      var randomNumber1
+      var randomNumber2
+      var leftimg
+      var rightimg
+      var randomNum
+      var left
+      var right
+      function getImages() {
+        randomNumber1 = ('00000' + Math.floor(Math.random() * 494)).slice(-5)
+        randomNumber2 = ('00000' + Math.floor(Math.random() * 494)).slice(-5)
+        leftimg = "L6/" + randomNumber1 + ".jpg";
+        rightimg = "L6/" + randomNumber2 + ".jpg";
+        left = document.getElementById("img-1");
+        right = document.getElementById("img-2");
+
+        left.src = leftimg;
+        right.src = rightimg;
+      }
+      async function changeRating(player1, player2, p1s, p2s) {
+        
+
+
+        const K = 32;
+
+        let player1Rating = await getData(player1)
+        let player2Rating = await getData(player2)
+        
+        let player1ExpectedScore = 1 / (1 + Math.pow(10, (player2Rating - player1Rating) / 400));
+        let player2ExpectedScore = 1 / (1 + Math.pow(10, (player1Rating - player2Rating) / 400));
+
+        let player1NewRating = player1Rating + K * (p1s - player1ExpectedScore);
+        let player2NewRating = player2Rating + K * (p2s - player2ExpectedScore);
+
+        pushData(player1, player1NewRating)
+        pushData(player2, player2NewRating)
+        
+      }
+      getImages();
+      var lock = false;
+      document.addEventListener("keydown", function(event) {
+        if (event.code === "ArrowLeft" && lock === false || event.code === "ArrowRight" && lock === false) {
+          lock = true;
+          if (event.code === "ArrowLeft") {
+            changeRating(randomNumber1, randomNumber2, 1, 0);
+            setTimeout(function() {
+              getImages();
+              lock = false;
+            }, 2000);
+          } 
+          else if (event.code === "ArrowRight") {
+            changeRating(randomNumber1, randomNumber2, 0, 1);
+            setTimeout(function() {
+              getImages();
+              lock = false;
+            }, 2000);
+          }
+
+        }
+      });
+    </script>
+  </body>
+</html>
