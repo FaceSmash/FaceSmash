@@ -32,30 +32,29 @@
         from "https://www.gstatic.com/firebasejs/9.16.0/firebase-database.js"
         const app = initializeApp(firebaseConfig);
         const db = getDatabase()
-        async function getData(key) {
-            const reference = ref(db, "Ratings/"+key)
+        async function getAllData() {
+            const reference = ref(db, "Ratings/")
             return get(reference).then((snapshot) => {
                 if (snapshot.exists()){
-                return snapshot.val().Score
+                    return snapshot.val()
                 }
             })
-        };
-
+        }
 
 
         async function main() {
+            let final = await getAllData();
             let topScores = [];
-            for (let i = 0; i < 494; i++) {
+            for (var i = 0; i < 494; i++) {
                 var str = "" + i
                 var pad = "00000"
-                var ans = pad.substring(0, pad.length - str.length) + str
-                let data = await getData(ans)
-                topScores.push({key: i, score: data});
+                var ans = pad.substring(0, pad.length - str.length)  + str
+                topScores.push({key: i, score: final[ans]["Score"]});
             }
             topScores.sort(function(a, b) {
                 return b.score - a.score;
             });
-            console.log(topScores[0].key)
+            console.log(topScores)
             var leaderboard = document.getElementById("leaderboard");
 
             for (var i = 0; i < topScores.length; i++) {
@@ -67,7 +66,6 @@
                 var str = "" + topScores[i].key
                 var pad = "00000"
                 var ans = pad.substring(0, pad.length - str.length)  + str
-                let data = await getData(ans)
                 redirectCell.innerHTML = `<a href="https://facesmash.github.io/FaceSmash/L6/${ans}.jpg" target="_blank"><span class="redirect"></span></a>`;
                 rankCell.innerHTML = i+1;
                 if (Math.round(topScores[i].score) >= 1500 && Math.round(topScores[i].score) < 2500) {
