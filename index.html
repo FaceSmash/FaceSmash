@@ -49,27 +49,6 @@
           
         })
       }
-
-
-      function getTopScores() {
-        const reference = ref(db);
-        return get(reference).then(function(snapshot) {
-          console.log(snapshot)
-          let topScores = [];
-          snapshot.forEach(function(childSnapshot) {
-            let key = childSnapshot.key;
-            let score = childSnapshot.val().Score;
-            topScores.push({key: key, score: score});
-          });
-          console.log(topScores)
-          return topScores;
-        });
-    }
-
-
-
-
-
       function resetData() {
         for (let i = 0; i < 494; i++) {
           var str = "" + i
@@ -96,10 +75,8 @@
         right.src = rightimg;
       }
       async function changeRating(player1, player2, p1s, p2s) {
-        
 
-
-        const K = 32;
+        const K = 128;
 
         let player1Rating = await getData(player1)
         let player2Rating = await getData(player2)
