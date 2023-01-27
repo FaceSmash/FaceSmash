@@ -182,16 +182,18 @@
         }
       });
 
-      document.addEventListener("click", function(event) {
+      document.addEventListener("click", async function(event) {
         if (event.target === left && lock === false || event.target === right && lock === false) {
           lock = true;
           if (event.target === left) {
             changeRating(randomNumber1, randomNumber2, 1, 0);
-            randomNumber2 = ('00000' + Math.floor(Math.random() * 494)).slice(-5)
+            const skill = await skillbased(randomNumber1)
+            randomNumber2 = ('00000' + skill).slice(-5)
             player1count++;
             player2count = 0;
             if (player1count === 10) {
               randomNumber1 = ('00000' + Math.floor(Math.random() * 494)).slice(-5)
+              randomNumber2 = await skillbased(randomNumber1)
             }
             setTimeout(function() {
               getImages();
@@ -200,11 +202,12 @@
           }
           else if (event.target === right) {
             changeRating(randomNumber1, randomNumber2, 0, 1);
-            randomNumber1 = ('00000' + Math.floor(Math.random() * 494)).slice(-5)
+            randomNumber1 = await skillbased(randomNumber2)
             player2count++;
             player1count = 0;
             if (player2count === 10) {
               randomNumber2 = ('00000' + Math.floor(Math.random() * 494)).slice(-5)
+              randomNumber1 = await skillbased(randomNumber2)
             }
             setTimeout(function() {
               getImages();
