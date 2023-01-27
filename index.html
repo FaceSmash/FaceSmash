@@ -81,23 +81,22 @@
         }
       }
       async function skillbased(p) {
-        var p1score = await getData(p)
         let topScores = orderTheData(await getAllData())
         var key = parseInt(p)
         const myIndex = topScores.findIndex(item => item.key === key)
         var minIndex = Math.max(myIndex - 20, 0);
         var maxIndex = Math.min(myIndex + 20, topScores.length - 1);
-        var randomIndex = Math.floor(Math.random() * (maxIndex - minIndex + 1)) + minIndex;
-        var valuee = p;
-        while (valuee === p) {
-          valuee = ('00000' + topScores[randomIndex].key).slice(-5)
+        var randomIndex = null;
+        while(randomIndex === null || randomIndex === myIndex) {
+          randomIndex = Math.floor(Math.random() * (maxIndex - minIndex + 1)) + minIndex;
         }
+        var valuee = ('00000' + topScores[randomIndex].key).slice(-5)
         topScores = null
         return valuee
       }
       var body = document.querySelector("body");
       var randomNumber1 = ('00000' + Math.floor(Math.random() * 494)).slice(-5)
-      var randomNumber2 = ('00000' + await skillbased(randomNumber1)).slice(-5)
+      var randomNumber2 = await skillbased(randomNumber1)
       var leftimg
       var rightimg
       var randomNum
