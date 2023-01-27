@@ -41,9 +41,7 @@
             })
         }
 
-
-        async function main() {
-            let final = await getAllData();
+        function orderTheData(final) {
             let topScores = [];
             for (var i = 0; i < 494; i++) {
                 var str = "" + i
@@ -54,7 +52,13 @@
             topScores.sort(function(a, b) {
                 return b.score - a.score;
             });
-            console.log(topScores)
+            return topScores;
+        }
+
+
+        async function main() {
+            let final = await getAllData();
+            let topScores = orderTheData(final)
             var leaderboard = document.getElementById("leaderboard");
 
             for (var i = 0; i < topScores.length; i++) {
