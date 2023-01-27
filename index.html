@@ -22,11 +22,8 @@
         <p id="rating-2" style="margin-top: -5px; font-family: -apple-system,BlinkMacSystemFont,Segoe UI,system-ui,Helvetica,Arial,sans-serif;"></p>
       </div>
     </div>
-    
-    
     <script type="module">
       import { initializeApp } from "https://www.gstatic.com/firebasejs/9.16.0/firebase-app.js";
-
       const firebaseConfig = {
         apiKey: "AIzaSyCdXptiYhasQSessIZhzVjbDx7WEEURUuw",
         authDomain: "facesmash-16b7d.firebaseapp.com",
@@ -37,10 +34,8 @@
         appId: "1:922705802314:web:2b780673acf54192bc22b3",
         measurementId: "G-NYG5G6D4G3"
       };
-      
       import { orderByChild, getDatabase, get, ref, set, child, update, remove }
       from "https://www.gstatic.com/firebasejs/9.16.0/firebase-database.js"
-      
       const app = initializeApp(firebaseConfig);
       const db = getDatabase()
       function pushData(key, value) {
@@ -54,10 +49,8 @@
           if (snapshot.exists()){
             return snapshot.val().Score
           }
-          
         })
       }
-
       async function getAllData() {
             const reference = ref(db, "Ratings/")
             return get(reference).then((snapshot) => {
@@ -66,7 +59,6 @@
                 }
             })
         }
-
         function orderTheData(final) {
           let topScores = [];
           for (var i = 0; i < 494; i++) {
@@ -80,7 +72,6 @@
           });
           return topScores;
         }
-
       function resetData() {
         for (let i = 0; i < 494; i++) {
           var str = "" + i
@@ -89,8 +80,6 @@
           pushData(ans, 1000)
         }
       }
-
-
       async function skillbased(p) {
         var p1score = await getData(p)
         let topScores = orderTheData(await getAllData())
@@ -119,29 +108,21 @@
         rightimg = "L6/" + randomNumber2 + ".jpg";
         left = document.getElementById("img-1");
         right = document.getElementById("img-2");
-
         document.getElementById("rating-1").textContent = Math.round(await getData(randomNumber1))
         document.getElementById("rating-2").textContent = Math.round(await getData(randomNumber2))
-
         left.src = leftimg;
         right.src = rightimg;
       }
       async function changeRating(player1, player2, p1s, p2s) {
-
         const K = 128;
-
         let player1Rating = await getData(player1)
         let player2Rating = await getData(player2)
-        
         let player1ExpectedScore = 1 / (1 + Math.pow(10, (player2Rating - player1Rating) / 400));
         let player2ExpectedScore = 1 / (1 + Math.pow(10, (player1Rating - player2Rating) / 400));
-
         let player1NewRating = player1Rating + K * (p1s - player1ExpectedScore);
         let player2NewRating = player2Rating + K * (p2s - player2ExpectedScore);
-
         pushData(player1, player1NewRating)
         pushData(player2, player2NewRating)
-        
       }
       getImages();
       var lock = false;
@@ -152,14 +133,13 @@
           lock = true;
           if (event.code === "ArrowLeft") {
             changeRating(randomNumber1, randomNumber2, 1, 0);
-            const skill = await skillbased(randomNumber1)
             randomNumber2 = ('00000' + skill).slice(-5)
             player1count++;
             player2count = 0;
             if (player1count === 10) {
               randomNumber1 = ('00000' + Math.floor(Math.random() * 494)).slice(-5)
-              randomNumber2 = await skillbased(randomNumber1)
             }
+            randomNumber2 = await skillbased(randomNumber1)
             setTimeout(function() {
               getImages();
               lock = false;
@@ -167,13 +147,12 @@
           } 
           else if (event.code === "ArrowRight") {
             changeRating(randomNumber1, randomNumber2, 0, 1);
-            randomNumber1 = await skillbased(randomNumber2)
             player2count++;
             player1count = 0;
             if (player2count === 10) {
               randomNumber2 = ('00000' + Math.floor(Math.random() * 494)).slice(-5)
-              randomNumber1 = await skillbased(randomNumber2)
             }
+            randomNumber1 = await skillbased(randomNumber2)
             setTimeout(function() {
               getImages();
               lock = false;
@@ -182,20 +161,18 @@
 
         }
       });
-
       document.addEventListener("click", async function(event) {
         if (event.target === left && lock === false || event.target === right && lock === false) {
           lock = true;
           if (event.target === left) {
             changeRating(randomNumber1, randomNumber2, 1, 0);
-            const skill = await skillbased(randomNumber1)
             randomNumber2 = ('00000' + skill).slice(-5)
             player1count++;
             player2count = 0;
             if (player1count === 10) {
               randomNumber1 = ('00000' + Math.floor(Math.random() * 494)).slice(-5)
-              randomNumber2 = await skillbased(randomNumber1)
             }
+            randomNumber2 = await skillbased(randomNumber1)
             setTimeout(function() {
               getImages();
               lock = false;
@@ -203,24 +180,19 @@
           }
           else if (event.target === right) {
             changeRating(randomNumber1, randomNumber2, 0, 1);
-            randomNumber1 = await skillbased(randomNumber2)
             player2count++;
             player1count = 0;
             if (player2count === 10) {
               randomNumber2 = ('00000' + Math.floor(Math.random() * 494)).slice(-5)
-              randomNumber1 = await skillbased(randomNumber2)
             }
+            randomNumber1 = await skillbased(randomNumber2)
             setTimeout(function() {
               getImages();
               lock = false;
             }, 500);
           }
-
         }
       });
-
-
-
     </script>
   </body>
 </html>
