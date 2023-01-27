@@ -59,7 +59,7 @@
                 }
             })
         }
-        function orderTheData(final) {
+      function orderTheData(final) {
           let topScores = [];
           for (var i = 0; i < 494; i++) {
               var str = "" + i
@@ -133,7 +133,6 @@
           lock = true;
           if (event.code === "ArrowLeft") {
             changeRating(randomNumber1, randomNumber2, 1, 0);
-            randomNumber2 = ('00000' + skill).slice(-5)
             player1count++;
             player2count = 0;
             if (player1count === 10) {
@@ -166,7 +165,6 @@
           lock = true;
           if (event.target === left) {
             changeRating(randomNumber1, randomNumber2, 1, 0);
-            randomNumber2 = ('00000' + skill).slice(-5)
             player1count++;
             player2count = 0;
             if (player1count === 10) {
