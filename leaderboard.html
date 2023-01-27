@@ -72,7 +72,7 @@
                 var ans = pad.substring(0, pad.length - str.length)  + str
                 redirectCell.innerHTML = `<a href="https://facesmash.github.io/FaceSmash/L6/${ans}.jpg" target="_blank"><span class="redirect"></span></a>`;
                 rankCell.innerHTML = i+1;
-                if (Math.round(topScores[i].score) >= 1500 && Math.round(topScores[i].score) < 2500) {
+                if (Math.round(topScores[i].score) >= 2000 && Math.round(topScores[i].score) < 2500) {
                     nameCell.innerHTML = `<span class="title-component">IM</span>` + " " + change(ans);
                 }
                 else if (Math.round(topScores[i].score) >= 2500) {
